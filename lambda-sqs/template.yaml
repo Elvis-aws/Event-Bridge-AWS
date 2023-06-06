@@ -244,6 +244,7 @@ Resources:
   EventsGeneratorFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: EventsGeneratorFunction
       CodeUri: src/
       Handler: app.lambda_handler
       Runtime: python3.9

@@ -3,6 +3,6 @@
         "DetailType": "MyTestMessage",
         "EventBusName": "MyEventBus",
         "Source": "MyTestApp",
-        "Detail": "{\"Log_Dest\":\"sumo\"}"
+        "Detail": "{\"Log_Test\":\"This is my test event\"}"
     }
   ]

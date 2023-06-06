@@ -3,7 +3,7 @@ version = 0.1
 [default.deploy]
 [default.deploy.parameters]
 stack_name = "event-bridge-app"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1q26kcfv0s3z8"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-nwx9ueizf9r0"
 s3_prefix = "event-bridge-app"
 region = "eu-west-2"
 confirm_changeset = true

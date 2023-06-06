@@ -19,7 +19,7 @@ Resources:
               - sts:AssumeRole
       Path: '/service-role/'
       Policies:
-        - PolicyName: eventbridge-api-destinations
+        - PolicyName: api-destinations
           PolicyDocument:
             Version: '2012-10-17'
             Statement:

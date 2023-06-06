@@ -38,5 +38,9 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps('Event Unterwegs!')
+        'body': json.dumps('Event Unterwegs!'),
+        'API response': response,
+        'Current Bus': choice_bus,
+        'Event Source': source,
+        'Is transaction reportable': reportable_value
     }

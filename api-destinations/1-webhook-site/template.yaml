@@ -8,11 +8,46 @@ Parameters:
     Default: 'https://webhook.site/<<ENTER YOUR UNIQUE URL HERE>>'
 
 Resources:
+
+# API destinations are third-party targets outside of AWS that you can invoke with an HTTP request. EventBridge invokes
+# the HTTP endpoint and delivers the event as a payload within the request. You can use any preferred HTTP method, such
+# as GET or POST. You can use input transformers to change the payload format to match your target.
+
+
   MyEventBus:
     Type: AWS::Events::EventBus
     Properties:
       Name: "MyEventBus"
 
+  DLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: EventBusDLQ
+
+  DLQPermission:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref DLQ
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: "AllowEventBusDLQ"
+            Effect: Allow
+            Principal:
+              AWS: "*"
+            Action:
+              - sqs:SendMessage
+              - sqs:ReceiveMessage
+              - sqs:GetQueueAttributes
+              - sqs:GetQueueUrl
+              - sqs:DeleteMessage
+              - sqs:ChangeMessageVisibility
+              - sqs:GetQueueAttributes
+            Resource: !GetAtt DLQ.Arn
+
+# An API destination uses a Connection to manage the authentication credentials for a target. This defines the
+# authorization type used, which can be an API key, OAuth client credentials grant, or a basic user name and password.
   MyConnection:
     Type: AWS::Events::Connection
     Properties:
@@ -23,6 +58,9 @@ Resources:
           ApiKeyName: MyWebhook
           ApiKeyValue: MyAPIkey
 
+# When you configure the destination, you must also set an invocation rate limit between 1 and 300 events per second.
+# This helps protect the downstream endpoint from surges in traffic. If the number of arriving events exceeds the limit,
+# the EventBridge service queues up events. It delivers to the endpoint as quickly as possible within the rate limit.
   MyApiDestination:
     Type: AWS::Events::ApiDestination
     Properties:
